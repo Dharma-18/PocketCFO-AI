@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFC"
+    android:orientation="vertical">
+
+    <!-- Top App Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp"
+        android:background="#F8FAFC">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good Morning, Boss 👋"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's Cash Flow"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end" />
+        </LinearLayout>
+        
+        <TextView
+            android:id="@+id/tvLangToggle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_lang_toggle"
+            android:text="EN"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageButton
+            android:id="@+id/btnNotificationHome"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_icon_circle"
+            android:src="@android:drawable/ic_popup_reminder"
+            android:contentDescription="Notifications"
+            app:tint="#000000"/>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="20dp">
+
+            <!-- Hero Impact Card (Shop Profit) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#000000">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Net Profit Today"
+                        android:textColor="#94A3B8"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/tvProfit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ 0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="4dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cash + UPI Combined"
+                            android:textColor="#38BDF8"
+                            android:textSize="12sp"
+                            android:background="@drawable/bg_pill_blue"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 4 Quick Actions grid -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:id="@+id/btnReceiveCash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_btn"
+                    android:padding="16dp"
+                    android:layout_marginEnd="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="40dp" android:layout_height="40dp" android:text="💵" android:textSize="24sp" android:gravity="center" android:background="@drawable/bg_icon_circle" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cash In" android:textSize="12sp" android:textColor="#000000" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnSpendCash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_btn"
+                    android:padding="16dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="40dp" android:layout_height="40dp" android:text="💸" android:textSize="24sp" android:gravity="center" android:background="@drawable/bg_icon_circle" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cash Out" android:textSize="12sp" android:textColor="#000000" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnUpiAuto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_btn"
+                    android:padding="16dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="40dp" android:layout_height="40dp" android:text="🎤" android:textSize="24sp" android:gravity="center" android:background="@drawable/bg_icon_circle_accent" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Voice Log" android:textSize="12sp" android:textColor="#000000" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnReports"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_action_btn"
+                    android:padding="16dp"
+                    android:layout_marginStart="6dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="40dp" android:layout_height="40dp" android:text="📋" android:textSize="24sp" android:gravity="center" android:background="@drawable/bg_icon_circle" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="History" android:textSize="12sp" android:textColor="#000000" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Yesterday vs Today Chart -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Logs &amp; AI Help"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Dynamic Chat / Receipts Window -->
+            <LinearLayout
+                android:id="@+id/chatLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Input Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:background="#FFFFFF"
+        android:elevation="16dp">
+
+        <ImageButton
+            android:id="@+id/btnVoiceHome"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_btn_speak_now"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#3B82F6"/>
+
+        <EditText
+            android:id="@+id/etInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_rounded"
+            android:hint="Type or speak a transaction..."
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnSendHome"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#3B82F6"/>
+    </LinearLayout>
+
+</LinearLayout>

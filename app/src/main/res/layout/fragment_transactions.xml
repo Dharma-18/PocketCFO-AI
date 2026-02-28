@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="#F8FAFC">
+
+    <!-- Header -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="@drawable/bg_premium_gradient" android:paddingHorizontal="20dp"
+        android:paddingTop="44dp" android:paddingBottom="16dp" android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="📊 All Logs" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold"/>
+        <ImageButton android:id="@+id/btnDownloadPdf" android:layout_width="40dp" android:layout_height="40dp"
+            android:background="@drawable/bg_stat_blue" android:src="@android:drawable/ic_menu_save"
+            android:contentDescription="Download PDF"/>
+    </LinearLayout>
+
+    <!-- Search bar -->
+    <EditText android:id="@+id/etSearch" android:layout_width="match_parent" android:layout_height="44dp"
+        android:layout_marginHorizontal="16dp" android:layout_marginTop="12dp"
+        android:background="@drawable/bg_bot_bubble_pro" android:hint="🔍 Search logs..."
+        android:textColorHint="#94A3B8" android:paddingHorizontal="16dp"
+        android:textColor="#000000" android:textSize="13sp"/>
+
+    <!-- Filter chips -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:paddingHorizontal="16dp" android:paddingVertical="10dp">
+        <TextView android:id="@+id/chipAll" android:layout_width="wrap_content" android:layout_height="32dp"
+            android:text="All" android:textColor="#FFFFFF" android:textSize="12sp"
+            android:background="@drawable/bg_action_teal" android:paddingHorizontal="16dp"
+            android:gravity="center" android:layout_marginEnd="8dp"/>
+        <TextView android:id="@+id/chipIncome" android:layout_width="wrap_content" android:layout_height="32dp"
+            android:text="💚 Income" android:textColor="#16A34A" android:textSize="12sp"
+            android:background="@drawable/bg_stat_green" android:paddingHorizontal="14dp"
+            android:gravity="center" android:layout_marginEnd="8dp"/>
+        <TextView android:id="@+id/chipExpense" android:layout_width="wrap_content" android:layout_height="32dp"
+            android:text="🔴 Expense" android:textColor="#DC2626" android:textSize="12sp"
+            android:background="@drawable/bg_stat_teal" android:paddingHorizontal="14dp"
+            android:gravity="center" android:layout_marginEnd="8dp"/>
+        <TextView android:id="@+id/chipUpi" android:layout_width="wrap_content" android:layout_height="32dp"
+            android:text="📲 UPI" android:textColor="#2563EB" android:textSize="12sp"
+            android:background="@drawable/bg_stat_blue" android:paddingHorizontal="14dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Summary bar -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:paddingHorizontal="16dp" android:layout_marginBottom="8dp">
+        <TextView android:id="@+id/tvTxIncome" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Income: ₹0" android:textColor="#16A34A" android:textSize="12sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvTxExpense" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Expense: ₹0" android:textColor="#DC2626" android:textSize="12sp"
+            android:textStyle="bold" android:gravity="center"/>
+        <TextView android:id="@+id/tvTxProfit" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Profit: ₹0" android:textColor="#0D9488" android:textSize="12sp"
+            android:textStyle="bold" android:gravity="end"/>
+    </LinearLayout>
+
+    <!-- Logs list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTransactions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"/>
+</LinearLayout>

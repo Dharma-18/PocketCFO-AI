@@ -1,7 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_home" android:icon="@drawable/ic_home" android:title="Home" />
-    <item android:id="@+id/nav_ledger" android:icon="@drawable/ic_ledger" android:title="Ledger" />
-    <item android:id="@+id/nav_add" android:icon="@drawable/ic_add" android:title="Add" />
-    <item android:id="@+id/nav_insights" android:icon="@drawable/ic_insights" android:title="Insights" />
-    <item android:id="@+id/nav_profile" android:icon="@drawable/ic_profile" android:title="Profile" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Logs" />
+    <item
+        android:id="@+id/nav_capture"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:title="Mic" />
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Tips" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="My Info" />
 </menu>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#F8FAFC">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_premium_gradient" android:paddingHorizontal="20dp"
+            android:paddingTop="44dp" android:paddingBottom="20dp" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="👤 My Info" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/tvShopName" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="My Shop" android:textColor="#CCE8F4" android:textSize="14sp" android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- Shop Info Card -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/bg_bot_bubble_pro"
+            android:layout_marginHorizontal="16dp" android:layout_marginTop="16dp" android:padding="16dp"
+            android:elevation="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🏪 Shop Info" android:textColor="#000000" android:textSize="15sp" android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+            <TextView android:id="@+id/tvShopType" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Type: Not set" android:textColor="#000000" android:textSize="13sp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Currency: ₹ INR" android:textColor="#000000" android:textSize="13sp" android:layout_marginTop="4dp"/>
+            <TextView android:id="@+id/tvTotalTx" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Total Logs: 0" android:textColor="#000000" android:textSize="13sp" android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- App Features Card -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="@drawable/bg_bot_bubble_pro"
+            android:layout_marginHorizontal="16dp" android:layout_marginTop="12dp" android:padding="16dp"
+            android:elevation="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="⚡ App Tools" android:textColor="#000000" android:textSize="15sp" android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+            
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="📲 UPI SMS Auto-Capture" android:textColor="#000000" android:textSize="14sp" android:textStyle="bold"/>
+                <Switch android:id="@+id/switchSmsTracking" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:checked="true"/>
+            </LinearLayout>
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🤖 AI NLP Engine: Trilingual (EN/HI/TA)\n🎙 Paytm SoundBox Listener: Ready\n📊 PDF Report Generation: Enabled"
+                android:textColor="#000000" android:textSize="13sp" android:lineSpacingExtra="6dp"/>
+        </LinearLayout>
+
+        <!-- Export Actions -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:paddingHorizontal="16dp" android:layout_marginTop="16dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="📄 Download Data" android:textColor="#000000" android:textSize="15sp"
+                android:textStyle="bold" android:layout_marginBottom="10dp"/>
+
+            <LinearLayout android:id="@+id/btnDailyPdf" android:layout_width="match_parent" android:layout_height="56dp"
+                android:background="@drawable/bg_action_green" android:gravity="center_vertical"
+                android:paddingHorizontal="20dp" android:layout_marginBottom="10dp"
+                android:clickable="true" android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="📥 Daily Report (PDF)" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/btnWeeklyPdf" android:layout_width="match_parent" android:layout_height="56dp"
+                android:background="@drawable/bg_action_blue" android:gravity="center_vertical"
+                android:paddingHorizontal="20dp" android:layout_marginBottom="10dp"
+                android:clickable="true" android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="📥 Weekly Report (PDF)" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/btnFullPdf" android:layout_width="match_parent" android:layout_height="56dp"
+                android:background="@drawable/bg_action_purple" android:gravity="center_vertical"
+                android:paddingHorizontal="20dp" android:layout_marginBottom="16dp"
+                android:clickable="true" android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="📥 Full Money Report (PDF)" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnClearData"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp"
+                android:text="🗑 Clear All Data (Testing)"
+                android:textColor="#EF4444"
+                android:backgroundTint="#FEE2E2"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btnExitBusiness"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="🚪 Switch Business / Exit"
+                android:textColor="#EF4444"
+                android:backgroundTint="#FFFFFF"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- App Info -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center" android:padding="24dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="💼 PocketCFO v1.0" android:textColor="#94A3B8" android:textSize="12sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="AI-Powered Finance Assistant for India" android:textColor="#CBD5E1" android:textSize="11sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -42,6 +42,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     // Room Database
     val room_version = "2.6.1"
@@ -53,6 +54,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Chart library (7-day P&L bar chart)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // CardView for transaction receipt cards
+    implementation("androidx.cardview:cardview:1.0.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

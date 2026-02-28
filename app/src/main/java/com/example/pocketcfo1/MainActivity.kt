@@ -1,37 +1,54 @@
 package com.example.pocketcfo1
 
-import android.animation.ValueAnimator
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
+import android.Manifest
+import android.content.*
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.speech.RecognizerIntent
-import android.view.Gravity
-import android.view.ViewGroup
-import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
-import java.util.*
-import java.util.regex.Pattern
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/**
+ * MainActivity — thin navigation shell.
+ * All content lives in Fragments. This only handles:
+ *   1. BottomNav tab switching
+ *   2. SoundBox broadcast receiver
+ *   3. Permissions
+ */
 class MainActivity : AppCompatActivity() {
 
-    private var totalBusinessProfit: Int = 0
-    private var totalPersonalSpending: Int = 0
-    private var isTamil = false
-    private var pendingItem: String? = null
+    private var soundBoxEnabled = false
 
-    private lateinit var tvProfit: TextView
-    private lateinit var tvPersonal: TextView
-    private lateinit var etInput: EditText
+    private lateinit var bottomNav: BottomNavigationView
 
-    private val speechLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            val spokenText = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
-            etInput.setText(spokenText)
+    // Fragments (lazy to avoid re-creation)
+    private val homeFragment        by lazy { HomeFragment() }
+    private val transactionsFragment by lazy { TransactionsFragment() }
+    private val insightsFragment    by lazy { InsightsFragment() }
+    private val assistantFragment   by lazy { AssistantFragment() }
+    private val profileFragment     by lazy { ProfileFragment() }
+
+    // SoundBox auto-detection receiver
+    private val soundboxReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val amount = intent?.getIntExtra(SoundBoxListenerService.EXTRA_AMOUNT, 0) ?: 0
+            val text   = intent?.getStringExtra(SoundBoxListenerService.EXTRA_TEXT) ?: return
+            if (amount > 0) {
+                // Show badge on Capture tab
+                bottomNav.getOrCreateBadge(R.id.nav_capture).number =
+                    (bottomNav.getBadge(R.id.nav_capture)?.number ?: 0) + 1
+                // If HomeFragment is visible, add card directly
+                val current = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+                if (current is HomeFragment) {
+                    current.addBubble("🎤 SoundBox detected: ₹$amount auto-logged!", false)
+                    current.setNotificationActive(true)
+                }
+                Toast.makeText(this@MainActivity, "📡 SoundBox: ₹$amount logged!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -39,196 +56,85 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tvProfit = findViewById(R.id.tvProfit)
-        tvPersonal = findViewById(R.id.tvPersonal)
-        etInput = findViewById(R.id.etInput)
-        val tvLangToggle = findViewById<TextView>(R.id.tvLangToggle)
-        val btnSend = findViewById<ImageButton>(R.id.btnSend)
-        val btnVoice = findViewById<ImageButton>(R.id.btnVoice)
-        val chatLayout = findViewById<LinearLayout>(R.id.chatLayout)
-        val chatScroll = findViewById<NestedScrollView>(R.id.chatScroll)
+        bottomNav = findViewById(R.id.bottomNav)
 
-        loadData()
-
-        tvLangToggle.setOnClickListener {
-            isTamil = !isTamil
-            tvLangToggle.text = if (isTamil) "தமிழ்" else "EN"
-            val msg = if (isTamil) "வணக்கம்! நான் உங்கள் PocketCFO. இன்று நீங்கள் என்ன செலவு செய்தீர்கள்?" else "Hello! I am your PocketCFO. What did you spend on today?"
-            addMessageBubble(msg, false, chatLayout, chatScroll)
+        // Load Home tab on first start
+        if (savedInstanceState == null) {
+            switchFragment(homeFragment)
         }
 
-        btnSend.setOnClickListener {
-            val text = etInput.text.toString().trim()
-            if (text.isNotEmpty()) {
-                addMessageBubble(text, true, chatLayout, chatScroll)
-                etInput.text.clear()
-                processAgenticBrain(text, chatLayout, chatScroll)
-            }
-        }
-
-        btnVoice.setOnClickListener {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, if(isTamil) "ta-IN" else "en-IN")
-            try { speechLauncher.launch(intent) } catch (e: Exception) {}
-        }
-
-        findViewById<Button>(R.id.chipIncome).setOnClickListener { setQuickText("I made a sale of ", etInput) }
-        findViewById<Button>(R.id.chipExpense).setOnClickListener { setQuickText("Business expense for ", etInput) }
-        findViewById<Button>(R.id.chipPersonal).setOnClickListener { setQuickText("Personal spend: ", etInput) }
-
-        // Initial Greeting
-        chatLayout.postDelayed({
-            val msg = if (isTamil) "வணக்கம் தர்மா! உங்களின் நிதி விபரங்களை பதிவு செய்ய தொடங்கலாம்." else "Hello Dharma! Ready to log your finances for today?"
-            val exists = chatLayout.childCount > 0
-            if(!exists) addMessageBubble(msg, false, chatLayout, chatScroll)
-        }, 500)
-    }
-
-    private fun setQuickText(text: String, et: EditText) {
-        et.setText(text)
-        et.setSelection(text.length)
-        et.requestFocus()
-    }
-
-    private fun textToNumeric(text: String): String {
-        var processed = text.lowercase()
-        val wordMap = mapOf(
-            "one" to "1", "two" to "2", "three" to "3", "four" to "4", "five" to "5",
-            "six" to "6", "seven" to "7", "eight" to "8", "nine" to "9", "ten" to "10",
-            "hundred" to "00", "thousand" to "000", "lakh" to "00000"
-        )
-        wordMap.forEach { (word, num) -> processed = processed.replace(word, num) }
-        return processed
-    }
-
-    private fun processAgenticBrain(input: String, container: LinearLayout, scroll: NestedScrollView) {
-        container.postDelayed({
-            val normalizedInput = textToNumeric(input)
-            val lower = normalizedInput.lowercase()
-
-            val p = Pattern.compile("(\\d+)\\s*(k|lakh)?")
-            val m = p.matcher(lower)
-
-            var detectedAmount = 0
-            var foundAmount = false
-            if (m.find()) {
-                val num = m.group(1)?.toInt() ?: 0
-                val unit = m.group(2) ?: ""
-                detectedAmount = when(unit) {
-                    "k" -> num * 1000
-                    "lakh" -> num * 100000
-                    else -> num
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home    -> { switchFragment(homeFragment); true }
+                R.id.nav_history -> { switchFragment(transactionsFragment); true }
+                R.id.nav_capture -> {
+                    toggleSoundBox()
+                    bottomNav.removeBadge(R.id.nav_capture)
+                    true
                 }
-                foundAmount = true
+                R.id.nav_search  -> { switchFragment(insightsFragment); true }
+                R.id.nav_profile -> { switchFragment(profileFragment); true }
+                else -> false
             }
+        }
 
-            if (!foundAmount || detectedAmount == 0) {
-                pendingItem = input
-                val msg = if (isTamil) "எவ்வளவு தொகை? (₹)" else "Got it. What was the exact amount? (e.g., 500 or 1k)"
-                addMessageBubble(msg, false, container, scroll)
-                return@postDelayed
-            }
+        requestAllPermissions()
+    }
 
-            val incomeKeywords = listOf("salary", "sold", "sale", "made", "income", "received", "profit")
-            val personalKeywords = listOf("home", "house", "personal", "kids", "gift", "eggs", "milk", "movie", "clothes", "dinner")
+    private fun switchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
+    }
 
-            val isIncome = incomeKeywords.any { lower.contains(it) } || (pendingItem != null && incomeKeywords.any { pendingItem!!.lowercase().contains(it) })
-            val isPersonal = personalKeywords.any { lower.contains(it) } || (pendingItem != null && personalKeywords.any { pendingItem!!.lowercase().contains(it) })
-
-            val oldProfit = totalBusinessProfit
-            val oldPersonal = totalPersonalSpending
-
-            if (isPersonal) {
-                if (isIncome) totalPersonalSpending -= detectedAmount else totalPersonalSpending += detectedAmount
+    // ── SoundBox Toggle ─────────────────────────────────────────────────────
+    private fun toggleSoundBox() {
+        soundBoxEnabled = !soundBoxEnabled
+        if (soundBoxEnabled) {
+            val perm = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            if (perm == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(this, SoundBoxListenerService::class.java)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startForegroundService(intent)
+                else startService(intent)
+                Toast.makeText(this, "🎙 SoundBox ON — Listening for Paytm", Toast.LENGTH_SHORT).show()
             } else {
-                if (isIncome) totalBusinessProfit += detectedAmount else totalBusinessProfit -= detectedAmount
+                Toast.makeText(this, "⚠️ Grant microphone permission first", Toast.LENGTH_SHORT).show()
+                soundBoxEnabled = false
             }
-
-            saveData()
-            animateNumbers(oldProfit, totalBusinessProfit, tvProfit, isProfit = true)
-            animateNumbers(oldPersonal, totalPersonalSpending, tvPersonal, isProfit = false)
-
-            val header = if (isTamil) "📊 நிதி பகுப்பாய்வு\n────────────\n" else "📊 POCKET CFO LOG\n────────────\n"
-            val type = if (isPersonal) "Personal" else "Business"
-            val body = "✅ Added: ${if(isIncome)"+" else "-"}₹$detectedAmount\nCategory: $type"
-
-            addMessageBubble(header + body, false, container, scroll)
-            pendingItem = null
-        }, 800)
-    }
-
-    private fun addMessageBubble(text: String, isUser: Boolean, container: LinearLayout, scroll: NestedScrollView) {
-        val tv = TextView(this)
-        tv.text = text
-        tv.setPadding(48, 32, 48, 32)
-        tv.elevation = 2f
-        tv.textSize = 14f
-        tv.letterSpacing = 0.02f
-        
-        val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.setMargins(0, 16, 0, 16)
-        
-        if (isUser) {
-            tv.setBackgroundResource(R.drawable.bg_user_bubble)
-            tv.setTextColor(Color.parseColor("#1E1B4B")) // primary_indigo
-            params.gravity = Gravity.END
-            params.marginStart = 140
         } else {
-            tv.setBackgroundResource(R.drawable.bg_bot_bubble_pro)
-            tv.setTextColor(Color.parseColor("#0F172A")) // text_main
-            params.gravity = Gravity.START
-            params.marginEnd = 140
-        }
-        
-        tv.layoutParams = params
-        
-        // Add fade scale animation
-        tv.alpha = 0f
-        tv.scaleX = 0.9f
-        tv.scaleY = 0.9f
-        container.addView(tv)
-        
-        tv.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .setDuration(250)
-            .withEndAction {
-                scroll.postDelayed({ scroll.fullScroll(android.view.View.FOCUS_DOWN) }, 50)
-            }.start()
-    }
-
-    private fun animateNumbers(startVal: Int, endVal: Int, textView: TextView, isProfit: Boolean) {
-        val animator = ValueAnimator.ofInt(startVal, endVal)
-        animator.duration = 1000
-        animator.addUpdateListener { animation ->
-            textView.text = "₹ ${animation.animatedValue}"
-        }
-        animator.start()
-
-        if (isProfit) {
-            textView.setTextColor(if (endVal >= 0) Color.WHITE else Color.parseColor("#FCA5A5"))
+            stopService(Intent(this, SoundBoxListenerService::class.java))
+            Toast.makeText(this, "🔕 SoundBox OFF", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateUI() {
-        runOnUiThread {
-            tvProfit.text = "₹ $totalBusinessProfit"
-            tvPersonal.text = "₹ $totalPersonalSpending"
-            tvProfit.setTextColor(if (totalBusinessProfit >= 0) Color.WHITE else Color.parseColor("#FCA5A5"))
-        }
+    // ── Lifecycle: register/unregister broadcast ────────────────────────────
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter(SoundBoxListenerService.ACTION_SOUNDBOX_LOG)
+        ContextCompat.registerReceiver(this, soundboxReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
-    private fun saveData() {
-        getSharedPreferences("CFO", Context.MODE_PRIVATE).edit().apply {
-            putInt("p", totalBusinessProfit); putInt("s", totalPersonalSpending); apply()
-        }
+    override fun onStop() {
+        super.onStop()
+        try { unregisterReceiver(soundboxReceiver) } catch (_: Exception) {}
     }
 
-    private fun loadData() {
-        val sp = getSharedPreferences("CFO", Context.MODE_PRIVATE)
-        totalBusinessProfit = sp.getInt("p", 0); totalPersonalSpending = sp.getInt("s", 0)
-        updateUI()
+    // ── Permissions ─────────────────────────────────────────────────────────
+    private fun requestAllPermissions() {
+        val needed = mutableListOf<String>()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            needed.add(Manifest.permission.RECEIVE_SMS)
+            needed.add(Manifest.permission.READ_SMS)
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            needed.add(Manifest.permission.RECORD_AUDIO)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            needed.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        if (needed.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, needed.toTypedArray(), 100)
+        }
     }
 }

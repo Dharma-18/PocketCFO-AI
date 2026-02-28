@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_premium_gradient"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <!-- App Icon + Title -->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💼" android:textSize="64sp" android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PocketCFO"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your AI Finance Assistant"
+        android:textColor="#CCE8F4"
+        android:textSize="14sp"
+        android:layout_marginBottom="40dp"/>
+
+    <!-- White card -->
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What type of business do you run?"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Grocery -->
+            <LinearLayout
+                android:id="@+id/shopGrocery"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_action_green"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🛒" android:textSize="24sp" android:layout_marginEnd="16dp"/>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Grocery / General Store" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rice, dal, vegetables, daily items" android:textColor="#CCFFF2" android:textSize="11sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Tea Stall -->
+            <LinearLayout
+                android:id="@+id/shopTeaStall"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_action_red"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="☕" android:textSize="24sp" android:layout_marginEnd="16dp"/>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tea Stall / Food Outlet" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tea, snacks, meals, beverages" android:textColor="#FFEEEE" android:textSize="11sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Freelancer -->
+            <LinearLayout
+                android:id="@+id/shopFreelancer"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_action_purple"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💼" android:textSize="24sp" android:layout_marginEnd="16dp"/>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Freelancer / Service" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Clients, projects, invoices" android:textColor="#F3E8FF" android:textSize="11sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tap any option to start"
+        android:textColor="#AACCDD"
+        android:textSize="12sp"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>
