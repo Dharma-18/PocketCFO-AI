@@ -1,50 +1,75 @@
-# 💸 PocketCFO 
-**The "WhatsApp" of Accounting for Indian Micro-Businesses**
+# PocketCFO-AI
 
-PocketCFO is a Voice-First, AI-powered accounting companion designed specifically for Kirana stores, tea stalls, and freelancers who find traditional accounting software too intimidating. It replaces confusing ledgers with a simple, familiar chat-bubble interface.
-
-This project was built during a Hackathon to solve the massive problem of unorganized cash flow tracking in the Indian micro-business sector.
+![Project Status](https://img.shields.io/badge/status-active-brightgreen)  ![Version](https://img.shields.io/badge/version-v1.0.0-blue)
 
 ---
 
-## ⚡ Core Features
-
-*   🗣️ **Trilingual Voice Logging:** Owners can speak naturally in English, Tamil, or Hindi ("Got 500" or "Sold tea for 50 rupees"). The NLP engine instantly understands the intent and logs the amount.
-*   📩 **Invisible UPI Auto-Capture:** Built-in Android `BroadcastReceivers` run in the background, listening for Paytm, PhonePe, and GPay SMS alerts and automatically recording digital income without manual entry.
-*   💬 **Conversational Dashboard:** Replaces intimidating Excel spreadsheets with a friendly "WhatsApp-style" chat interface. Green bubbles for money in, red bubbles for money out.
-*   📊 **AI-Powered Insights:** Automatically analyzes spending trends and provides concise, actionable local tips to the shop owner.
-*   📄 **1-Tap PDF Exports:** Instantly generates professional Daily, Weekly, or Full Financial Reports directly to device storage.
-
----
-
-## 🛠️ Technology Stack
-
-PocketCFO is built natively for Android to ensure lightning-fast, offline-first performance suitable for budget smartphones.
-
-*   **Kotlin** – Core application logic and Trilingual NLP engine.
-*   **Android Jetpack** – UI structure, navigation, and core components.
-*   **Room Database (SQLite)** – Secure, offline-first storage of daily transactions.
-*   **Kotlin Coroutines** – Asynchronous background data processing.
-*   **Broadcast Receivers** – Silently capturing background Paytm/PhonePe SMS alerts.
-*   **Android Telephony API** – Extracting merchant names and amounts from text messages.
-*   **Android Speech Recognizer** – Powering voice-to-text logging.
-*   **Native PDF Documents** – Generating end-of-day financial reports.
-*   **MPAndroidChart** – Rendering the visual expense graphs.
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Author](#author)
 
 ---
 
-## 🚀 How to Run the Project
-
-1. Clone this repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/PocketCFO.git
-   ```
-2. Open the project in **Android Studio** (Koala or newer recommended).
-3. Connect a physical Android device or start an Emulator.
-4. Hit **Run ('app')** in Android Studio.
-5. *Note:* Make sure to grant **Microphone**, **SMS**, and **Notification** permissions when prompted to enable voice logging and auto-capture features!
+## Introduction
+PocketCFO-AI is designed to be the **WhatsApp of Accounting for Indian Micro-Businesses**, offering a seamless experience in managing finances and accounting needs. 
 
 ---
 
-## 💡 About 
-Built with ❤️ during an intensive Hackathon to bring financial clarity to the undocumented backbone of the Indian economy.
+## Features
+- **User-Friendly Interface:** Designed for ease of use and accessibility.
+- **AI-Powered Insights:** Get smart suggestions and analytics for your financial data.
+- **Instant Messaging Integration:** Communicate effortlessly with clients in a familiar chat format.
+- **Multi-Language Support:** Tailored for diverse Indian languages to cater to a broader audience.
+
+---
+
+## Installation
+To install PocketCFO-AI, clone the repository and run the following commands:
+
+```bash
+git clone https://github.com/Dharma-18/PocketCFO-AI.git
+cd PocketCFO-AI
+npm install
+```
+
+---
+
+## Project Structure
+```
+PocketCFO-AI/
+├── src/
+│   ├── components/
+│   ├── services/
+│   ├── utils/
+│   └── App.js
+├── public/
+│   └── index.html
+├── package.json
+└── README.md
+```
+
+---
+
+## Contributing
+We welcome contributions! Please open an issue to discuss your ideas, or submit a pull request.
+
+---
+
+## Troubleshooting
+- **Issue:** App crashes on startup.
+  - **Solution:** Ensure all dependencies are installed and up to date.
+
+---
+
+## Author
+**Dharma-18**  
+For any questions or feedback, please reach out via GitHub.
+
+---
+
+Thank you for checking out PocketCFO-AI!
